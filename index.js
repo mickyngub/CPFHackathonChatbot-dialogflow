@@ -10,6 +10,14 @@ app.use(bodyParser.json());
 
 app.use("/api/dialogflow", Query);
 
+if (process.env.NODE_ENV === "production") {
+  //set static folder
+  app.use(express.static("client-side/build"));
+
+  app.get("*", async (req, res) => {
+    res.sendFile(path.resolve(__dirname, "client-side", "build", "index.html"));
+  });
+}
 const port = process.env.PORT || 5000;
 
 app.listen(port, () => {
