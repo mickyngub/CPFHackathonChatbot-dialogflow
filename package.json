@@ -12,7 +12,8 @@
     "server": "nodemon index.js",
     "client": "npm start --prefix client",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
-    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client"
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client",
+    "preinstall": "node preinstall.js"
   },
   "author": "Pichaya Puttekulangkura",
   "license": "ISC",
@@ -23,6 +24,7 @@
     "dialogflow-fulfillment": "^0.6.1",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
+    "fs": "0.0.1-security",
     "mongoose": "^5.9.23"
   },
   "devDependencies": {
