@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import Axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
 
 const Chatbot = () => {
   useEffect(() => {
@@ -16,7 +17,7 @@ const Chatbot = () => {
         },
       },
     };
-    console.log(conversation);
+    console.log("text I sent", conversation);
 
     // conversations.push(conversation);
     const textQueryVariables = {
@@ -33,7 +34,7 @@ const Chatbot = () => {
         who: "bot",
         content: content,
       };
-      console.log(conversation);
+      console.log("text bot sent", conversation);
       //   conversations.push(conversation);
     } catch (error) {
       conversation = {
