@@ -41,13 +41,16 @@ const Chatbot = () => {
       );
       const content = response.data.fulfillmentMessages[0];
 
-      conversation = {
-        who: "bot",
-        content: content,
-      };
-      dispatch(saveMessage(conversation));
+      for (let content of response.data.fulfillmentMessages) {
+        conversation = {
+          who: "bot",
+          content: content,
+        };
 
-      console.log("text bot sent", conversation);
+        dispatch(saveMessage(conversation));
+      }
+
+      //   console.log("text bot sent", conversation);
       //   conversations.push(conversation);
     } catch (error) {
       conversation = {
@@ -75,15 +78,15 @@ const Chatbot = () => {
         "/api/dialogflow/eventQuery",
         eventQueryVariables
       );
-      const content = response.data.fulfillmentMessages[0];
+      for (let content of response.data.fulfillmentMessages) {
+        let conversation = {
+          who: "bot",
+          content: content,
+        };
 
-      let conversation = {
-        who: "bot",
-        content: content,
-      };
-      dispatch(saveMessage(conversation));
-
-      console.log(conversation);
+        dispatch(saveMessage(conversation));
+      }
+      //   console.log(conversation);
       //   conversations.push(conversation);
     } catch (error) {
       let conversation = {
