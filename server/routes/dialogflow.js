@@ -14,9 +14,8 @@ router.get("/test", () => {
 
 // console.log(process.env.dialogFlowSessionID);
 // console.log(process.env.googleProjectID);
-const projectId = process.env.googleProjectID;
-const sessionId = process.env.dialogFlowSessionID;
-
+const projectId = "cpfchatbot-rnweat";
+const sessionId = "bot-session";
 const sessionClient = new dialogflow.SessionsClient();
 const sessionPath = sessionClient.sessionPath(projectId, sessionId);
 
