@@ -1,7 +1,10 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Axios from "axios";
 
 const Chatbot = () => {
+  useEffect(() => {
+    eventQuery("welcomeToWebsite");
+  }, []);
   const textQuery = async (text) => {
     let conversations = [];
 
@@ -34,6 +37,38 @@ const Chatbot = () => {
       //   conversations.push(conversation);
     } catch (error) {
       conversation = {
+        who: "bot",
+        content: {
+          text: {
+            text: "Error occurred",
+          },
+        },
+      };
+      //   conversations.push(conversation);
+      console.log(conversation);
+    }
+  };
+
+  const eventQuery = async (event) => {
+    // conversations.push(conversation);
+    const eventQueryVariables = {
+      event,
+    };
+    try {
+      const response = await Axios.post(
+        "/api/dialogflow/eventQuery",
+        eventQueryVariables
+      );
+      const content = response.data.fulfillmentMessages[0];
+
+      let conversation = {
+        who: "bot",
+        content: content,
+      };
+      console.log(conversation);
+      //   conversations.push(conversation);
+    } catch (error) {
+      let conversation = {
         who: "bot",
         content: {
           text: {
