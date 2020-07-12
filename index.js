@@ -6,7 +6,7 @@ const path = require("path");
 
 require("dotenv").config();
 
-// app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 app.use("/api/dialogflow", Query);
