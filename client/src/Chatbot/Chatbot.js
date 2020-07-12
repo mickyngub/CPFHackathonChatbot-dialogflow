@@ -1,8 +1,10 @@
 import React, { useEffect } from "react";
 import Axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
+import { saveMessage } from "../_actions/message_actions";
 
 const Chatbot = () => {
+  const dispatch = useDispatch();
   useEffect(() => {
     eventQuery("welcomeToWebsite");
   }, []);
@@ -17,6 +19,7 @@ const Chatbot = () => {
         },
       },
     };
+    dispatch(saveMessage(conversation));
     console.log("text I sent", conversation);
 
     // conversations.push(conversation);
@@ -34,6 +37,8 @@ const Chatbot = () => {
         who: "bot",
         content: content,
       };
+      dispatch(saveMessage(conversation));
+
       console.log("text bot sent", conversation);
       //   conversations.push(conversation);
     } catch (error) {
@@ -46,6 +51,8 @@ const Chatbot = () => {
         },
       };
       //   conversations.push(conversation);
+      dispatch(saveMessage(conversation));
+
       console.log(conversation);
     }
   };
@@ -66,6 +73,8 @@ const Chatbot = () => {
         who: "bot",
         content: content,
       };
+      dispatch(saveMessage(conversation));
+
       console.log(conversation);
       //   conversations.push(conversation);
     } catch (error) {
@@ -78,6 +87,8 @@ const Chatbot = () => {
         },
       };
       //   conversations.push(conversation);
+      dispatch(saveMessage(conversation));
+
       console.log(conversation);
     }
   };
