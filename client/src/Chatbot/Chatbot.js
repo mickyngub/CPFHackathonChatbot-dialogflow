@@ -1,18 +1,20 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import Axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { saveMessage } from "../_actions/message_actions";
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemText from "@material-ui/core/ListItemText";
-import ListItemAvatar from "@material-ui/core/ListItemAvatar";
-import Avatar from "@material-ui/core/Avatar";
-import Adb from "@material-ui/icons/Adb";
-import AccountCircle from "@material-ui/icons/AccountCircle";
+
+import Message from "./Sections/Message";
 
 const Chatbot = () => {
+  const endOfMessages = useRef(null);
+  const scrollToBottom = () => {
+    endOfMessages.current.scrollIntoView({ behavior: "smooth" });
+  };
+
   const dispatch = useDispatch();
   const messagesFromRedux = useSelector((state) => state.message.messages);
+  useEffect(scrollToBottom, [messagesFromRedux]);
+
   useEffect(() => {
     eventQuery("welcomeToWebsite");
   }, []);
@@ -115,21 +117,26 @@ const Chatbot = () => {
   };
 
   const renderOneMessage = (message, i) => {
-    return (
-      <List key={i} style={{ padding: "1rem" }}>
-        <ListItem>
-          <ListItemAvatar>
-            <Avatar>
-              {message.who === "bot" ? <Adb /> : <AccountCircle />}
-            </Avatar>
-          </ListItemAvatar>
-          <ListItemText
-            primary={message.content.text.text}
-            secondary={message.who}
-          />
-        </ListItem>
-      </List>
-    );
+    console.log("Message is", message);
+
+    if (message.content && message.content.text && message.content.text.text) {
+      return (
+        <Message key={i} who={message.who} text={message.content.text.text} />
+      );
+    } else if (message.content && message.content.payload.fields.card) {
+      return (
+        <Message
+          // style={{
+          //   display: "flex",
+          //   justifyContent: "center",
+          //   alignItems: "center",
+          // }}
+          key={i}
+          card={message.content.payload.fields.card.listValue.values}
+          who={message.who}
+        />
+      );
+    }
   };
   const renderMessage = (returnedMessages) => {
     if (returnedMessages) {
@@ -143,7 +150,7 @@ const Chatbot = () => {
     <div
       style={{
         height: 700,
-        width: 700,
+        width: 600,
         border: "3px solid black",
         borderRadius: "7px",
         margin: "auto",
@@ -151,6 +158,7 @@ const Chatbot = () => {
     >
       <div style={{ height: 644, width: "100%", overflow: "auto" }}>
         {renderMessage(messagesFromRedux)}
+        <div ref={endOfMessages}></div>
       </div>
       <input
         style={{
